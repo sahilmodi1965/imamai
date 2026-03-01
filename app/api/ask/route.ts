@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { saveConversation } from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
@@ -38,6 +39,9 @@ export async function POST(request: Request) {
     }
 
     const answer = data.choices[0].message.content;
+    
+    // Save to database
+    saveConversation(question, answer);
     
     return NextResponse.json({ answer });
   } catch (error) {
